@@ -1,0 +1,7 @@
+[package]
+name = "smt-examples-simple"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+smt-components = { path = "../../components", version = "0.1.0" }
