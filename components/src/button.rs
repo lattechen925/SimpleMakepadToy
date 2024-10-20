@@ -11,65 +11,73 @@ live_design! {
         width: Fit, height: Fit,
         spacing: 7.5,
         align: {x: 0.5, y: 0.5},
-        padding: <THEME_MSPACE_2> {}
+        padding: {top: 10.0, right: 16.0, bottom: 10.0, left: 16.0}
         label_walk: { width: Fit, height: Fit },
 
         draw_text: {
             instance hover: 0.0,
             instance pressed: 0.0,
             text_style: <THEME_FONT_REGULAR> {
-                font_size: (THEME_FONT_SIZE_P)
+                font_size: 14.0
             }
             fn get_color(self) -> vec4 {
-                return THEME_COLOR_TEXT_DEFAULT
+                return #f;
             }
         }
 
-        icon_walk: {
-            width: (THEME_DATA_ICON_WIDTH), height: Fit,
-        }
+        // icon_walk: {
+        //     width: (THEME_DATA_ICON_WIDTH), height: Fit,
+        // }
+        //
+        // draw_icon: {
+        //     instance hover: 0.0
+        //     instance pressed: 0.0
+        //     uniform color: (THEME_COLOR_TEXT_DEFAULT)
+        //     fn get_color(self) -> vec4 {
+        //         return mix(
+        //             mix(
+        //                 self.color,
+        //                 mix(self.color, #f, 0.5),
+        //                 self.hover
+        //             ),
+        //             self.color * 0.75,
+        //             self.pressed
+        //         )
+        //     }
+        // }
+        THEME_COLOR_W = #FFFFFFFF
+        THEME_COLOR_W_H = #FFFFFF00
 
-        draw_icon: {
-            instance hover: 0.0
-            instance pressed: 0.0
-            uniform color: (THEME_COLOR_TEXT_DEFAULT)
-            fn get_color(self) -> vec4 {
-                return mix(
-                    mix(
-                        self.color,
-                        mix(self.color, #f, 0.5),
-                        self.hover
-                    ),
-                    self.color * 0.75,
-                    self.pressed
-                )
-            }
-        }
+        THEME_COLOR_B = #006FEEFF
+        THEME_COLOR_B_H = #006FEE00
+// WIDGET COLORS
+    THEME_COLOR_CTRL_DEFAULT = (THEME_COLOR_U_1)
+    THEME_COLOR_CTRL_PRESSED = (THEME_COLOR_D_1)
+    THEME_COLOR_CTRL_HOVER = (THEME_COLOR_U_2)
+    THEME_COLOR_CTRL_ACTIVE = (THEME_COLOR_D_2)
+    THEME_COLOR_CTRL_SELECTED = (THEME_COLOR_U_2)
+    THEME_COLOR_CTRL_INACTIVE = (THEME_COLOR_D_HIDDEN)
+
+        THEME_COLOR_D_1 = (mix(THEME_COLOR_B, THEME_COLOR_B_H, pow(0.85, 1.0)))
+        THEME_COLOR_U_2 = (mix(THEME_COLOR_W, THEME_COLOR_W_H, pow(0.9, 1.0)))
 
         draw_bg: {
             instance hover: 0.0
             instance pressed: 0.0
-            uniform border_radius: (THEME_CORNER_RADIUS)
-            instance bodytop: (THEME_COLOR_CTRL_DEFAULT)
-            instance bodybottom: (THEME_COLOR_CTRL_HOVER)
+            uniform border_radius: 8.0
+            instance bodytop: (THEME_COLOR_D_1)
+            instance bodybottom: (THEME_COLOR_D_2)
+
+            fn get_color(self) -> vec4 {
+                let a = #006FEE;
+                let b = vec4(a.rgb, 0.8)
+
+                return mix(a, b, self.hover)
+
+            }
+
             fn pixel(self) -> vec4 {
                 let sdf = Sdf2d::viewport(self.pos * self.rect_size);
-                let grad_top = 5.0;
-                let grad_bot = 2.0;
-                let body = mix(mix(self.bodytop, self.bodybottom, self.hover), THEME_COLOR_CTRL_PRESSED, self.pressed);
-
-                let body_transp = vec4(body.xyz, 0.0);
-                let top_gradient = mix(
-                    body_transp,
-                    mix(THEME_COLOR_BEVEL_LIGHT, THEME_COLOR_BEVEL_SHADOW, self.pressed),
-                    max(0.0, grad_top - sdf.pos.y) / grad_top
-                );
-                let bot_gradient = mix(
-                    mix(THEME_COLOR_BEVEL_SHADOW, THEME_COLOR_BEVEL_LIGHT, self.pressed),
-                    top_gradient,
-                    clamp((self.rect_size.y - grad_bot - sdf.pos.y - 1.0) / grad_bot, 0.0, 1.0)
-                );
-
                 sdf.box(
                     1.,
                     1.,
@@ -77,13 +85,7 @@ live_design! {
                     self.rect_size.y - 2.0,
                     self.border_radius
                 )
-                sdf.fill_keep(body)
-
-                sdf.stroke(
-                    bot_gradient,
-                    THEME_BEVELING
-                )
-
+                sdf.fill_keep(self.get_color())
                 return sdf.result
             }
         }
@@ -125,10 +127,30 @@ live_design! {
     }
 }
 
+// #[derive(Live, LiveHook)]
+// #[live_ignore]
+pub enum SiButtonColor {
+    // #[pick]
+    None,
+    Primary(String),
+    Secondary,
+    Success,
+    Warning,
+    Danger,
+}
+
+impl Default for SiButtonColor {
+    fn default() -> Self {
+        SiButtonColor::None
+    }
+}
+
 #[derive(Live, LiveHook, Widget)]
 pub struct SiButton {
     #[deref]
     button: Button,
+
+    // #[live]color: SiButtonColor,
 }
 
 impl Widget for SiButton {

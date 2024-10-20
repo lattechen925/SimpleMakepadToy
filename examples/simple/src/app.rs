@@ -13,6 +13,12 @@ live_design! {
             main_window = <Window> {
                 window: {title: "SimpleMakepadToy"},
                 caption_bar = { caption_label = {label = {text: "SimpleMakepadToy"}} },
+                // show_bg: true
+                // draw_bg: {
+                //     fn pixel(self) -> vec4{
+                //         return #ffffff;
+                //     }
+                // }
 
                 body = <ScrollXYView>{
                     flow: Down,
@@ -21,8 +27,15 @@ live_design! {
                         x: 0.5,
                         y: 0.5
                     },
+                    show_bg: true
+                    // draw_bg: {
+                    //     fn pixel(self) -> vec4{
+                    //         return #d;
+                    //     }
+                    // }
 
-                    myBtn = <SiButtonBase> { text: "My SiButtonBase" }
+                    myBtn = <SiButtonBase> { text: "Button" }
+                    button = <Button> { text: "Button" }
                 }
             }
         }
