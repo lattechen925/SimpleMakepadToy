@@ -28,13 +28,19 @@ live_design! {
                         y: 0.5
                     },
                     show_bg: true
-                    // draw_bg: {
-                    //     fn pixel(self) -> vec4{
-                    //         return #d;
-                    //     }
-                    // }
+                    draw_bg: {
+                        fn pixel(self) -> vec4{
+                            return #f;
+                        }
+                    }
 
-                    myBtn = <SiButtonBase> { text: "Button" }
+                    myBtn = <SiButtonBase> { text: "Default" }
+                    myBtn2 = <SiButtonBase> { text: "Primary", background_color: Primary }
+                    myBtn3 = <SiButtonBase> { text: "Secondary", background_color: Secondary }
+                    myBtn4 = <SiButtonBase> { text: "Success", background_color: Success }
+                    myBtn5 = <SiButtonBase> { text: "Warning", background_color: Warning }
+                    myBtn6 = <SiButtonBase> { text: "Danger", background_color: Danger }
+
                     button = <Button> { text: "Button" }
                 }
             }
