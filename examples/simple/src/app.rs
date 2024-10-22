@@ -34,12 +34,12 @@ live_design! {
                         }
                     }
 
-                    myBtn = <SiButtonBase> { text: "Default" }
-                    myBtn2 = <SiButtonBase> { text: "Primary", background_color: Primary }
-                    myBtn3 = <SiButtonBase> { text: "Secondary", background_color: Secondary }
-                    myBtn4 = <SiButtonBase> { text: "Success", background_color: Success }
-                    myBtn5 = <SiButtonBase> { text: "Warning", background_color: Warning }
-                    myBtn6 = <SiButtonBase> { text: "Danger", background_color: Danger }
+                    myBtn = <SiButtonBase> { text: "Default(Medium)" }
+                    myBtn2 = <SiButtonBase> { text: "Primary Full", color: Primary, radius: full }
+                    myBtn3 = <SiButtonBase> { text: "Secondary Large", color: Secondary, radius: lg }
+                    myBtn4 = <SiButtonBase> { text: "Success Medium", color: Success, radius: md }
+                    myBtn5 = <SiButtonBase> { text: "Warning Small", color: Warning, radius: sm }
+                    myBtn6 = <SiButtonBase> { text: "Danger None", color: Danger, radius: none }
 
                     button = <Button> { text: "Button" }
                 }
